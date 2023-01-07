@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DC js - TP 1 - 3*3</title>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dc/4.2.7/style/dc.min.css" rel="stylesheet"/>
+    <link crossorigin="" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" rel="stylesheet"/>
+    <link href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" rel="stylesheet"/>
+    <link href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" rel="stylesheet"/>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/4.2.7/dc.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+
+    <script src="/viz.js"></script>
+
+    <style>
+
+        body {
+            margin: 0.5rem;
+            width: calc(-1rem + 100vw);
+            height: calc(-1rem + 100vh);
+        }
+
+        .topContainer {
+            display: grid;
+            grid-gap: 0.5rem;
+            height: 100%;
+            grid-auto-flow: row dense;
+            grid-template: repeat(2, min-content) / repeat(3, min-content);
+        }
+
+        .container {
+            border: 1px solid black;
+            /* height: calc(-2rem + 33vh); */
+            /* height: fit-content; */
+            padding: 0.5rem;
+            background-color: rgb(223, 223, 223);
+        }
+
+        .container > h3 {
+            text-align: center;
+        }
+
+        #chart1Anchor {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 1;
+            grid-row-end: 1;
+        }
+
+        #chart2Anchor {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 1;
+            grid-row-end: 1;
+        }
+
+        #chart3Anchor {
+            grid-column-start: 3;
+            grid-column-end: 4;
+            grid-row-start: 1;
+            grid-row-end: 1;
+        }
+
+        #chart4Anchor {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 2;
+            grid-row-end: 2;
+        }
+
+        #chart5Anchor {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 2;
+            grid-row-end: 2;
+        }
+
+        #chart6Anchor {
+            grid-column-start: 3;
+            grid-column-end: 4;
+            grid-row-start: 2;
+            grid-row-end: 2;
+        }
+
+        #chart7Anchor {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 3;
+            grid-row-end: 3;
+        }
+
+        #chart8Anchor {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 3;
+            grid-row-end: 3;
+        }
+
+        #chart9Anchor {
+            grid-column-start: 3;
+            grid-column-end: 4;
+            grid-row-start: 3;
+            grid-row-end: 3;
+        }
+
+        .mhDistribs{
+            display: grid;
+            grid-template-columns: 300px 300px;
+            grid-row: auto auto;
+        }
+
+        .mhDistribs-2{
+            display: grid;
+            grid-template-columns: 525px 525px;
+            grid-row: auto auto;
+        }
+    </style>
+</head>
+<body>
+
+<button onclick="reset()" style="position: absolute;top: 0;right: 0;margin: 1rem">Reset</button>
+
+<div class="topContainer">
+    <div class="container" id="chart1Anchor">
+        <h3>Favorite genres</h3>
+        <div id="chart1"></div>
+    </div>
+    <div class="container" id="chart2Anchor">
+        <h3>Age group repartition</h3>
+        <div id="chart2"></div>
+    </div>
+    <div class="container" id="chart3Anchor">
+        <h3>Favorite genre vs Age</h3>
+        <div id="chart3"></div>
+    </div>
+    <div class="container" id="chart4Anchor">
+        <h3>Hours per day vs Mental health effects</h3>
+        <div id="chart4"></div>
+    </div>
+    <div class="container" id="chart5Anchor">
+        <h3>Music effects vs Is instrumentalist</h3>
+        <div id="chart5"></div>
+    </div>
+    <div class="container" id="chart6Anchor">
+        
+        <h3>Mental Health distributions</h3>
+        <div class=" mhDistribs">
+        <div>
+            <h4>Anxiety distribution</h4>
+            <div id="chart-Anxiety"></div>
+        </div>
+        
+        <div>
+        <h4>Depression distribution</h4>
+        <div id="chart-Depression"></div>
+        </div>
+        <div>
+        <h4>Insomnia distribution</h4>
+        <div id="chart-Insomnia"></div>
+        </div>
+        <div>
+        <h4>OCD distribution</h4>
+        <div id="chart-OCD"></div>
+        </div>
+
+        </div>
+    </div>
+    <div class="container" id="chart7Anchor">
+        <h3>BPM by Mental Health</h3>
+        <div id="chart7">
+            <div class=" mhDistribs-2">
+                <div>
+                    <h4>BPM by Anxiety</h4>
+                    <div id="chart-Anxiety2"></div>
+                </div>
+                
+                <div>
+                <h4>BPM by Depression</h4>
+                <div id="chart-Depression2"></div>
+                </div>
+                <div>
+                <h4>BPM by Insomnia</h4>
+                <div id="chart-Insomnia2"></div>
+                </div>
+                <div>
+                <h4>BPM by OCD</h4>
+                <div id="chart-OCD2"></div>
+                </div>
+        
+                </div>
+
+        </div>
+    </div>
+
+    <div class="container" id="chart8Anchor">
+        <h3>Instrumentalist and Composer Sunburst</h3>
+        <div id="chart8"></div>
+    </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+    (() => {
+        // On crée la visualisation quand le document est chargé
+        createDataViz()
+    })()
+</script>
