@@ -43,6 +43,6 @@ Le but de ce diagramme est de voir si le fait d'être compositeur dépend du fai
 
 ## Conclusion
 
-Malheuresement a cause de la ssous représentation des autres tranches d'âge et des distributions de problèmes mentaux inégales, c'est dur de tirer des conclusions des graphiques.
+Malheureusement a cause de la ssous représentation des autres tranches d'âge et des distributions de problèmes mentaux inégales, c'est dur de tirer des conclusions des graphiques.
 
 Je n'ai pas beaucoup apprécié dc.js pour la visualisation, ça donne vraiment l'impression que c'est se tirer une balle dans le pied d'utiliser autre chose que Tableau ou python pour faire ce genre de visu, en plus pas très pratique de manipuler des données en JS.
